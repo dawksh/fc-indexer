@@ -1,3 +1,3 @@
-import processHubMessages from "./jobs/processHub";
+import processHubMessages from "./jobs/processHubMessages";
 
 processHubMessages()

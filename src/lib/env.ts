@@ -4,7 +4,8 @@ import z from "zod";
 config()
 
 const envSchema = z.object({
-    HUB_API_URL: z.string()
+    HUB_API_URL: z.string(),
+    REDIS_URL: z.string()
 })
 
 const env = envSchema.parse(process.env)
