@@ -1,7 +1,6 @@
 {
   "name": "fc-indexer",
   "module": "index.ts",
-  "type": "module",
   "private": true,
   "devDependencies": {
     "@types/bun": "latest"
@@ -10,7 +9,12 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev": "bun run src/index.ts"
+    "dev": "bun --hot src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun run dist/index.js",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "build:prod": "bun build src/index.ts --outdir dist --target node --minify"
   },
   "dependencies": {
     "@farcaster/hub-nodejs": "^0.15.6",
