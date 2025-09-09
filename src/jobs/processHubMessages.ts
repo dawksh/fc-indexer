@@ -1,4 +1,4 @@
-import { HubEventType } from "@farcaster/hub-nodejs";
+import { HubEventType, MessageData } from "@farcaster/hub-nodejs";
 import client from "../lib/farcaster";
 import { addToQueue } from "../lib/redis";
 import logger from "../lib/logger";
@@ -13,7 +13,7 @@ const processHubMessages = async () => {
     if (sub.isOk()) {
       logger.info("Successfully connected to Farcaster Hub");
       for await (const event of sub.value) {
-        const message = event.mergeMessageBody.message.data;
+        const message = event.mergeMessageBody.message.data as MessageData;
         const type = message.type;
         if (type == 5 || type == 6) {
           addToQueue({ data: message });
