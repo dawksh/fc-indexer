@@ -1,3 +1,6 @@
 import processHubMessages from "./jobs/processHubMessages";
+import redis from "./lib/redis";
 
-processHubMessages()
+redis.connect().then(() => {
+  processHubMessages();
+});
