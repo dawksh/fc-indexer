@@ -23,19 +23,19 @@ async function* queueIterator(): AsyncIterableIterator<MessageData> {
 }
 
 const processQueue = async () => {
+  logger.info(`Queue Started`);
   for await (const messageData of queueIterator()) {
-    logger.info(`Processing message: ${messageData.fid}`);
-    if(messageData.type == MessageType.LINK_ADD) {
-        putUserConnection({
-          fid: messageData.fid,
-          connection: messageData.linkBody?.targetFid ?? 0,
-        });
+    if (messageData.type == MessageType.LINK_ADD) {
+      putUserConnection({
+        fid: messageData.fid,
+        connection: messageData.linkBody?.targetFid ?? 0,
+      });
     }
-    if(messageData.type == MessageType.LINK_REMOVE) {
-        removeConnection({
-            fid: messageData.fid,
-            connection: messageData.linkBody?.targetFid ?? 0,
-        })
+    if (messageData.type == MessageType.LINK_REMOVE) {
+      removeConnection({
+        fid: messageData.fid,
+        connection: messageData.linkBody?.targetFid ?? 0,
+      });
     }
   }
 };
