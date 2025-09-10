@@ -1,7 +1,6 @@
 import { createClient } from "redis";
 import env from "./env";
 import { MessageData } from "@farcaster/hub-nodejs";
-import { number } from "zod";
 
 const redis = createClient({
   url: env.REDIS_URL,
@@ -31,8 +30,17 @@ const removeConnection = async ({
   await redis.sRem(`fc-user-connections:${fid}`, connection.toString());
 };
 
-const storeFid = async ({ fid }: { fid: number }) => {
+const storeFidToRedis = async ({
+  fid,
+  followingData,
+}: {
+  fid: number;
+  followingData: number[];
+}) => {
   await redis.sAdd("fc-fids", fid.toString());
+  if (followingData.length > 0) {
+    await redis.sAdd(`fc-user-connections:${fid}`, followingData.map(String));
+  }
 };
 
 const isMember = async ({ fid }: { fid: number }) => {
@@ -40,4 +48,10 @@ const isMember = async ({ fid }: { fid: number }) => {
 };
 
 export default redis;
-export { addToQueue, putUserConnection, removeConnection, storeFid, isMember };
+export {
+  addToQueue,
+  putUserConnection,
+  removeConnection,
+  storeFidToRedis,
+  isMember,
+};
