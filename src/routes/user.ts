@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getUser } from "../controllers/user";
+import { getUser, saveUser } from "../controllers/user";
 
-const userRouter = Router().get("/", getUser);
+const userRouter = Router().get("/", getUser).post("/", saveUser);
 
 export default userRouter;
