@@ -20,6 +20,10 @@ const putUserConnection = async ({
   await redis.sAdd(`fc-user-connections:${fid}`, connection.toString());
 };
 
+const getConnections = async ({ fid }: { fid: number }) => {
+  return await redis.sMembers(`fc-user-connections:${fid}`);
+};
+
 const removeConnection = async ({
   fid,
   connection,
@@ -51,6 +55,7 @@ export default redis;
 export {
   addToQueue,
   putUserConnection,
+  getConnections,
   removeConnection,
   storeFidToRedis,
   isMember,
